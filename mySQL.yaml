@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-user5
+  labels:
+    app: mysql-user5
+spec:
+  selector:
+    matchLabels:
+      app: mysql-user5
+  replicas: 1
+  template:
+    metadata:
+      name: mysql-user5
+      labels:
+        app: mysql-user5
+    spec:
+      containers:
+      - name: mysql-user5
+        image: mysql:8.0.31
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: MYSQL_ROOT_PASSWORD
+              name: mysql-secret
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              key: MYSQL_USER
+              name: mysql-secret
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: MYSQL_PASSWORD
+              name: mysql-secret
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              key: MYSQL_DATABASE
+              name: mysql-secret
+        ports:
+        - containerPort: 3306
+          name: mysql
+          protocol: TCP
